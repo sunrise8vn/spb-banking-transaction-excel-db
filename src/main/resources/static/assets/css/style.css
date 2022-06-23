@@ -1,0 +1,45 @@
+body {
+    margin: 0 auto;
+}
+
+.table > tbody > tr > td {
+    vertical-align: middle;
+}
+
+table th {
+    background-color: #4CAF50 !important;
+    color: #fff;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+table thead th {
+    border: 0 solid #ddd;
+}
+
+table tbody td {
+    border: 0 solid #ddd;
+}
+
+table tr:nth-child(even) {
+    /*background-color: #f2f2f2;*/
+}
+
+#container {
+    padding-bottom: 25px;
+}
+
+.table-title {
+    background: #299be4;
+    color: #fff;
+    padding: 16px 30px;
+    border-radius: 3px 3px 0 0;
+}
+
+.table-title .btn {
+    float: right;
+    min-width: 50px;
+    outline: none !important;
+    margin-top: 10px;
+    margin-left: 10px;
+}

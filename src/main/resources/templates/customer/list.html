@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Customer management</title>
+    <link rel="stylesheet" href="/assets/css/bootstrap.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="table-title">
+            <div class="row">
+                <div class="col-sm-5">
+                    <h1>List of customers</h1>
+                </div>
+                <div class="col-sm-7">
+                    <button id="btnExport" class="btn btn-outline-light">
+                        <span>Export</span>
+                    </button>
+                    <input type="file" id="importFile" hidden>
+                    <button id="btnImport" class="btn btn-outline-light">
+                        <span>Import</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <table id="tbCustomer" class="table table-hover table-borderless">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>FullName</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Address</th>
+                <th>Balance</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <iframe id="downloadFrame" style="display:none"></iframe>
+
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/js/app.js"></script>
+
+    <script>
+
+        let page = {
+            urls: {
+                getAllCustomers: App.BASE_URL_CUSTOMER,
+                importDataCustomer: App.BASE_URL_CUSTOMER + '/import-to-db',
+                exportDataCustomer: App.BASE_URL_CUSTOMER + '/export-to-excel'
+            },
+            elements: {},
+            loadData: {},
+            commands: {}
+        }
+
+        page.loadData.getAllCustomers = () => {
+            $.ajax({
+                type: "GET",
+                url: page.urls.getAllCustomers,
+            }).done((data) => {
+
+                $.each(data, (index, item) => {
+                    let str = `
+                        <tr>
+                            <td class="text-center">${item.id}</td>
+                            <td class="text-center">${item.fullName}</td>
+                            <td class="text-center">${item.email}</td>
+                            <td class="text-center">${item.phone}</td>
+                            <td class="text-center">${item.address}</td>
+                            <td class="text-end num-space">${item.balance}</td>
+                        </tr>
+                    `;
+
+                    $("#tbCustomer tbody").prepend(str);
+                });
+
+            }).fail(function() {
+                alert("Import fail")
+            });
+        }
+
+        page.initializeControlEvent = () => {
+
+            $("#btnImport").on("click", function () {
+                $("#importFile").trigger("click");
+            })
+
+            $("#importFile").on("change", function () {
+                let formData = new FormData();
+                formData.append("file", $(this)[0].files[0]);
+
+                $.ajax({
+                    type: "POST",
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    url: page.urls.importDataCustomer,
+                    data: formData
+                }).done((data) => {
+                    alert("Import success")
+                }).fail((err) => {
+                    alert("Import fail")
+                });
+            });
+
+            $("#btnExport").on("click", function () {
+                $("#downloadFrame").attr("src", page.urls.exportDataCustomer);
+            })
+        }
+
+        $(function () {
+            page.loadData.getAllCustomers();
+
+            page.initializeControlEvent();
+        });
+    </script>
+
+</body>
+</html>
