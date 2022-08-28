@@ -59,7 +59,7 @@ public class CustomerServiceImpl implements CustomerService {
                     String address = String.valueOf(getValue(row.getCell(3)));
                     BigDecimal balance = BigDecimal.valueOf(Long.parseLong(String.valueOf(getValue(row.getCell(4)))));
 
-                    Customer transaction = Customer.builder()
+                    Customer customer = Customer.builder()
                             .fullName(fullName)
                             .email(email)
                             .phone(phone)
@@ -67,7 +67,7 @@ public class CustomerServiceImpl implements CustomerService {
                             .balance(balance)
                             .build();
 
-                    customers.add(transaction);
+                    customers.add(customer);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
