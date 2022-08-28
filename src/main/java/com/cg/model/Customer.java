@@ -3,7 +3,6 @@ package com.cg.model;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Digits;
 import java.math.BigDecimal;
 
 @Getter
@@ -27,6 +26,6 @@ public class Customer extends BaseEntity {
     private String phone;
     private String address;
 
-    @Digits(integer = 14, fraction = 2)
+    @Column(precision = 12, nullable = false)
     private BigDecimal balance;
 }

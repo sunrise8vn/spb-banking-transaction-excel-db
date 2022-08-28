@@ -21,7 +21,9 @@ public class CustomerRestController {
 
     @GetMapping
     public ResponseEntity<?> listCustomers() {
+
         List<Customer> customers = customerService.findAll();
+
         return ResponseEntity.ok(customers);
     }
 
